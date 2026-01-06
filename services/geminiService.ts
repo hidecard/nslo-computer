@@ -1,15 +1,16 @@
 
-import puter from 'puter';
+// Puter.js is loaded globally via script tag in index.html
+// No import needed - using global puter object
 import { AIMode, QuizQuestion, ChatMessage } from "../types";
 
-// Initialize Puter.js AI service for free Gemini access
-const ai = puter.ai('gemini-pro');
+// Global puter object is available for free Gemini access
+declare const puter: any;
 
 export const generateLessonContent = async (level: string, topic: string, mode: AIMode) => {
-  const model = (mode === AIMode.DEEP_EXPLAIN || mode === AIMode.TROUBLESHOOT || mode === AIMode.TEMPLATE) 
-    ? "gemini-3-pro-preview" 
+  const model = (mode === AIMode.DEEP_EXPLAIN || mode === AIMode.TROUBLESHOOT || mode === AIMode.TEMPLATE)
+    ? "gemini-3-pro-preview"
     : "gemini-3-flash-preview";
-  
+
   let systemInstruction = "You are a senior computer teacher in Myanmar. You help beginners learn technology in simple Myanmar language (Unicode). \n\nIMPORTANT FORMATTING RULES:\n1. Use Markdown for formatting.\n2. Use '### Header Title' for main sections.\n3. Use bold text (**word**) for key terms.\n4. Use bullet points (-) for lists.\n5. Use numbered lists (1.) for steps.\n6. For complex data, templates, or comparison lists, use Markdown Tables (| header | header |).\n7. Ensure the content is structured into at least 3-4 sections using the '###' syntax so the app can display them as collapsible parts.";
   let prompt = "";
 
@@ -36,12 +37,21 @@ export const generateLessonContent = async (level: string, topic: string, mode: 
       prompt = `Discuss the topic "${topic}" for ${level} in Myanmar using structured Markdown formatting with '###' sections.`;
   }
 
-  const response = await ai.generate({
-    prompt,
-    systemInstruction
-  });
+  const fullPrompt = `${systemInstruction}\n\n${prompt}`;
 
-  return response.text;
+  try {
+    const response = await puter.ai.chat(fullPrompt, { model, stream: true });
+    let result = '';
+    for await (const part of response) {
+      if (part?.text) {
+        result += part.text;
+      }
+    }
+    return result;
+  } catch (error) {
+    console.error('Error in generateLessonContent:', error);
+    throw error;
+  }
 };
 
 export const askAiTutor = async (
@@ -55,14 +65,21 @@ export const askAiTutor = async (
   Answer their questions in Myanmar language, being patient, encouraging, and clear. Use simple Markdown (bold, lists, tables) for clarity.`;
 
   const historyPrompt = history.map(msg => `${msg.role === 'user' ? 'Student' : 'Tutor'}: ${msg.text}`).join('\n');
-  const fullPrompt = `${historyPrompt}\nStudent: ${userMessage}\nTutor:`;
+  const fullPrompt = `${systemInstruction}\n\n${historyPrompt}\nStudent: ${userMessage}\nTutor:`;
 
-  const response = await ai.generate({
-    prompt: fullPrompt,
-    systemInstruction
-  });
-
-  return response.text;
+  try {
+    const response = await puter.ai.chat(fullPrompt, { model: 'gemini-3-flash-preview', stream: true });
+    let result = '';
+    for await (const part of response) {
+      if (part?.text) {
+        result += part.text;
+      }
+    }
+    return result;
+  } catch (error) {
+    console.error('Error in askAiTutor:', error);
+    throw error;
+  }
 };
 
 export const generateQuiz = async (level: string, topic: string): Promise<QuizQuestion[]> => {
@@ -79,16 +96,20 @@ export const generateQuiz = async (level: string, topic: string): Promise<QuizQu
   ]
   Make sure the JSON is valid and the correctAnswer is the index (0-3) of the correct option.`;
 
-  const response = await ai.generate({
-    prompt,
-    systemInstruction: "You are a quiz generator. Always return valid JSON arrays only, no additional text."
-  });
+  const fullPrompt = `You are a quiz generator. Always return valid JSON arrays only, no additional text.\n\n${prompt}`;
 
   try {
-    const text = response.text || '[]';
+    const response = await puter.ai.chat(fullPrompt, { model: 'gemini-3-flash-preview', stream: true });
+    let result = '';
+    for await (const part of response) {
+      if (part?.text) {
+        result += part.text;
+      }
+    }
+
     // Try to extract JSON from the response if it contains extra text
-    const jsonMatch = text.match(/\[[\s\S]*\]/);
-    const jsonText = jsonMatch ? jsonMatch[0] : text.trim();
+    const jsonMatch = result.match(/\[[\s\S]*\]/);
+    const jsonText = jsonMatch ? jsonMatch[0] : result.trim();
     return JSON.parse(jsonText);
   } catch (e) {
     console.error("Failed to parse quiz JSON", e);
@@ -99,17 +120,14 @@ export const generateQuiz = async (level: string, topic: string): Promise<QuizQu
 // Add export for generateTypingText to fix component error
 export const generateTypingText = async (language: 'en' | 'my'): Promise<string> => {
   const model = 'gemini-3-flash-preview';
+  const systemInstruction = "You are a typing tutor. Provide only the requested practice text. Do not include any commentary, titles, or other information.";
   const prompt = language === 'en'
     ? "Generate a short, engaging paragraph of text for typing practice in English. Focus on common vocabulary and natural flow. Length should be between 200 and 300 characters."
     : "Generate a short paragraph of Myanmar Unicode text for typing practice. Ensure it uses standard Unicode. Length should be between 100 and 200 characters.";
 
-  const response = await ai.models.generateContent({
-    model,
-    contents: prompt,
-    config: {
-      systemInstruction: "You are a typing tutor. Provide only the requested practice text. Do not include any commentary, titles, or other information."
-    }
-  });
+  const fullPrompt = `${systemInstruction}\n\n${prompt}`;
 
-  return response.text?.trim() || "";
+  const response = await puter.ai.chat(fullPrompt, { model });
+
+  return response?.trim() || "";
 };
