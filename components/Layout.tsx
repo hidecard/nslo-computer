@@ -20,7 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ children, onNavigate }) => {
                 N
               </div>
               <div className="min-w-0">
-                <h1 className="font-bold text-slate-900 leading-tight tracking-tight text-sm sm:text-base truncate">NSLO Portal</h1>
+                <h1 className="font-bold text-slate-900 leading-tight tracking-tight text-sm sm:text-base truncate">NSLO Computer</h1>
                 <p className="text-[9px] sm:text-[10px] text-indigo-600 font-bold uppercase tracking-wider hidden sm:block">Myanmar ICT Roadmap</p>
               </div>
             </div>
@@ -43,17 +43,12 @@ const Layout: React.FC<LayoutProps> = ({ children, onNavigate }) => {
 
       <footer className="bg-white border-t border-slate-200 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
-            <div className="flex items-center gap-2 order-2 sm:order-1">
+          <div className="flex justify-center items-center">
+            <div className="flex items-center gap-2">
               <div className="w-5 h-5 sm:w-6 sm:h-6 bg-slate-200 rounded-lg flex items-center justify-center">
                 <span className="text-xs font-bold text-slate-400">N</span>
               </div>
               <p className="text-slate-500 text-xs sm:text-sm font-medium">© 2024 NSLO Computer Myanmar</p>
-            </div>
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 order-1 sm:order-2">
-              <a href="#" className="text-xs font-bold text-slate-400 hover:text-indigo-600 transition-standard whitespace-nowrap">Privacy Policy</a>
-              <a href="#" className="text-xs font-bold text-slate-400 hover:text-indigo-600 transition-standard whitespace-nowrap">Terms of Service</a>
-              <a href="#" className="text-xs font-bold text-slate-400 hover:text-indigo-600 transition-standard whitespace-nowrap">Help Center</a>
             </div>
           </div>
         </div>

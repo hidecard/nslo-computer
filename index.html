@@ -44,63 +44,208 @@
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: transparent;
+            background: #f1f5f9;
+            border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb {
-            background: #d0d5dd;
-            border-radius: 10px;
+            background: #cbd5e1;
+            border-radius: 4px;
+            border: 2px solid #f1f5f9;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #98a2b3;
+            background: #94a3b8;
+        }
+        ::-webkit-scrollbar-thumb:active {
+            background: #64748b;
+        }
+
+        /* Sidebar Specific Scrollbar */
+        aside ::-webkit-scrollbar {
+            width: 6px;
+        }
+        aside ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        aside ::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 3px;
+        }
+        aside ::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
+        aside ::-webkit-scrollbar-thumb:active {
+            background: #94a3b8;
         }
 
         /* Enhanced Markdown Styling */
         .prose {
             max-width: none;
             color: var(--text-secondary);
+            line-height: 1.7;
         }
         .prose h3 {
             color: var(--text-main);
             font-weight: 700;
             font-size: 1.5rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.3;
         }
         .prose p {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
             line-height: 1.75;
+            text-align: justify;
+        }
+        .prose ul, .prose ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        .prose li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        .prose strong, .prose b {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .prose code {
+            background-color: #f3f4f6;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+        .prose pre {
+            background-color: #f9fafb;
+            border: 1px solid var(--border-soft);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .prose pre code {
+            background: none;
+            padding: 0;
         }
         .prose table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
             border: 1px solid var(--border-soft);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         .prose th {
-            background-color: #f9fafb;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             text-align: left;
-            padding: 12px 16px;
+            padding: 16px 20px;
             font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            border-bottom: 1px solid var(--border-soft);
+            font-weight: 700;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--border-soft);
             white-space: nowrap;
             position: sticky;
             top: 0;
             z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
         }
         .prose td {
-            padding: 12px 16px;
+            padding: 16px 20px;
             border-bottom: 1px solid var(--border-soft);
             font-size: 0.875rem;
             white-space: normal;
             word-wrap: break-word;
+            line-height: 1.6;
+        }
+        .prose tbody tr:hover {
+            background-color: #fafbfc;
+        }
+
+        /* AI Content Section Spacing */
+        .ai-content-section {
+            margin-bottom: 2rem;
+        }
+        .ai-content-section:last-child {
+            margin-bottom: 0;
+        }
+        .ai-content-intro {
+            background: linear-gradient(135deg, #fefefe 0%, #fafbfc 100%);
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .ai-content-collapsible {
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .ai-content-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-soft);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .ai-content-header:hover {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        }
+        .ai-content-body {
+            padding: 1.5rem;
+            background: #ffffff;
+        }
+
+        /* Mobile AI Content Spacing */
+        @media (max-width: 768px) {
+            .ai-content-section {
+                margin-bottom: 1.5rem;
+            }
+            .ai-content-intro {
+                padding: 1.25rem;
+                margin-bottom: 1.5rem;
+            }
+            .ai-content-collapsible {
+                margin-bottom: 1.25rem;
+            }
+            .ai-content-header {
+                padding: 1rem 1.25rem;
+            }
+            .ai-content-body {
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ai-content-section {
+                margin-bottom: 1.25rem;
+            }
+            .ai-content-intro {
+                padding: 1rem;
+                margin-bottom: 1.25rem;
+                border-radius: 8px;
+            }
+            .ai-content-collapsible {
+                margin-bottom: 1rem;
+                border-radius: 8px;
+            }
+            .ai-content-header {
+                padding: 0.875rem 1rem;
+            }
+            .ai-content-body {
+                padding: 1rem;
+            }
         }
 
         /* Mobile responsive table adjustments */
