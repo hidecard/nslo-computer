@@ -1,9 +1,9 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
+import puter from 'puter';
 import { AIMode, QuizQuestion, ChatMessage } from "../types";
 
-// Always initialize with the process.env.API_KEY
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Initialize Puter.js AI service for free Gemini access
+const ai = puter.ai('gemini-pro');
 
 export const generateLessonContent = async (level: string, topic: string, mode: AIMode) => {
   const model = (mode === AIMode.DEEP_EXPLAIN || mode === AIMode.TROUBLESHOOT || mode === AIMode.TEMPLATE) 
@@ -36,74 +36,60 @@ export const generateLessonContent = async (level: string, topic: string, mode: 
       prompt = `Discuss the topic "${topic}" for ${level} in Myanmar using structured Markdown formatting with '###' sections.`;
   }
 
-  const response = await ai.models.generateContent({
-    model,
-    contents: prompt,
-    config: { systemInstruction }
+  const response = await ai.generate({
+    prompt,
+    systemInstruction
   });
 
   return response.text;
 };
 
 export const askAiTutor = async (
-  level: string, 
-  topic: string, 
-  lessonContext: string, 
-  userMessage: string, 
+  level: string,
+  topic: string,
+  lessonContext: string,
+  userMessage: string,
   history: ChatMessage[]
 ) => {
-  const model = "gemini-3-pro-preview";
-  const systemInstruction = `You are a helpful Myanmar AI Tutor. The user is currently studying "${topic}" in the "${level}" module. 
+  const systemInstruction = `You are a helpful Myanmar AI Tutor. The user is currently studying "${topic}" in the "${level}" module.
   Answer their questions in Myanmar language, being patient, encouraging, and clear. Use simple Markdown (bold, lists, tables) for clarity.`;
 
   const historyPrompt = history.map(msg => `${msg.role === 'user' ? 'Student' : 'Tutor'}: ${msg.text}`).join('\n');
   const fullPrompt = `${historyPrompt}\nStudent: ${userMessage}\nTutor:`;
 
-  const response = await ai.models.generateContent({
-    model,
-    contents: fullPrompt,
-    config: { systemInstruction }
+  const response = await ai.generate({
+    prompt: fullPrompt,
+    systemInstruction
   });
 
   return response.text;
 };
 
 export const generateQuiz = async (level: string, topic: string): Promise<QuizQuestion[]> => {
-  const model = "gemini-3-pro-preview";
-  
-  const response = await ai.models.generateContent({
-    model,
-    contents: `Generate 5 multiple-choice questions for the topic "${topic}" in the ${level} computer course. 
-    The questions and options should be in Myanmar language. 
-    Return the result as a JSON array.`,
-    config: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: Type.ARRAY,
-        items: {
-          type: Type.OBJECT,
-          properties: {
-            question: { type: Type.STRING },
-            options: { 
-              type: Type.ARRAY, 
-              items: { type: Type.STRING } 
-            },
-            correctAnswer: { 
-              type: Type.INTEGER, 
-              description: "Index of the correct answer (0-3)" 
-            },
-            explanation: { type: Type.STRING }
-          },
-          required: ["question", "options", "correctAnswer", "explanation"],
-          propertyOrdering: ["question", "options", "correctAnswer", "explanation"],
-        }
-      }
+  const prompt = `Generate 5 multiple-choice questions for the topic "${topic}" in the ${level} computer course.
+  The questions and options should be in Myanmar language.
+  Return the result as a JSON array with the following structure:
+  [
+    {
+      "question": "Question text",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "correctAnswer": 0,
+      "explanation": "Explanation text"
     }
+  ]
+  Make sure the JSON is valid and the correctAnswer is the index (0-3) of the correct option.`;
+
+  const response = await ai.generate({
+    prompt,
+    systemInstruction: "You are a quiz generator. Always return valid JSON arrays only, no additional text."
   });
 
   try {
     const text = response.text || '[]';
-    return JSON.parse(text.trim());
+    // Try to extract JSON from the response if it contains extra text
+    const jsonMatch = text.match(/\[[\s\S]*\]/);
+    const jsonText = jsonMatch ? jsonMatch[0] : text.trim();
+    return JSON.parse(jsonText);
   } catch (e) {
     console.error("Failed to parse quiz JSON", e);
     return [];
