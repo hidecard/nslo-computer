@@ -234,9 +234,9 @@ const App: React.FC = () => {
           </div>
         </section>
       ) : (
-        <div className="flex flex-col md:flex-row h-[calc(100vh-64px)] bg-slate-50 overflow-hidden">
+        <div className="flex flex-col md:flex-row min-h-[calc(100vh-64px)] bg-slate-50">
           {/* Dashboard Sidebar */}
-          <aside className="w-full md:w-80 bg-white border-r border-slate-200 p-6 flex flex-col h-auto md:h-full overflow-y-auto shrink-0 shadow-sm z-30">
+          <aside className="w-full md:w-80 bg-white border-r border-slate-200 p-4 sm:p-6 flex flex-col max-h-[60vh] md:max-h-none md:h-full overflow-y-auto shrink-0 shadow-sm z-30">
             <button 
               onClick={resetToRoadmap}
               className="group flex items-center gap-2 text-slate-400 hover:text-indigo-600 mb-10 transition-standard text-xs font-bold uppercase tracking-widest"
@@ -302,7 +302,7 @@ const App: React.FC = () => {
           </aside>
 
           {/* Main Study Area */}
-          <main className="flex-grow overflow-y-auto z-10 px-4 md:px-12 py-10">
+          <main className="flex-grow overflow-y-auto z-10 px-4 sm:px-6 md:px-12 py-6 sm:py-10">
             <div className="max-w-4xl mx-auto">
               {loading ? (
                 <div className="flex flex-col items-center justify-center py-40">
@@ -437,9 +437,9 @@ const App: React.FC = () => {
           </main>
 
           {/* SaaS Style AI Tutor Chatbot */}
-          <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-6 pointer-events-none">
+          <div className="fixed bottom-4 sm:bottom-8 right-4 sm:right-8 z-[100] flex flex-col items-end gap-4 sm:gap-6 pointer-events-none">
             {isChatOpen && (
-              <div className="w-[380px] md:w-[480px] h-[650px] max-h-[85vh] bg-white rounded-[32px] shadow-[0_32px_64px_-12px_rgba(16,24,40,0.2)] border border-slate-200 overflow-hidden flex flex-col pointer-events-auto animate-slide-up">
+              <div className="w-[calc(100vw-2rem)] sm:w-[380px] md:w-[480px] h-[calc(100vh-8rem)] sm:h-[650px] max-h-[85vh] bg-white rounded-[24px] sm:rounded-[32px] shadow-[0_32px_64px_-12px_rgba(16,24,40,0.2)] border border-slate-200 overflow-hidden flex flex-col pointer-events-auto animate-slide-up">
                 <div className="bg-slate-900 px-8 py-6 flex items-center justify-between text-white shadow-lg">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center border-2 border-white/20 shadow-lg">

@@ -79,7 +79,8 @@
             margin: 1.5rem 0;
             border: 1px solid var(--border-soft);
             border-radius: 8px;
-            overflow: hidden;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
         .prose th {
             background-color: #f9fafb;
@@ -89,11 +90,69 @@
             font-weight: 600;
             color: var(--text-secondary);
             border-bottom: 1px solid var(--border-soft);
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         .prose td {
             padding: 12px 16px;
             border-bottom: 1px solid var(--border-soft);
             font-size: 0.875rem;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        /* Mobile responsive table adjustments */
+        @media (max-width: 768px) {
+            .prose table {
+                font-size: 0.8rem;
+                margin: 1rem -0.5rem;
+                border-radius: 4px;
+                border-left: none;
+                border-right: none;
+                min-width: 600px; /* Ensure minimum width for scrolling */
+            }
+            .prose th,
+            .prose td {
+                padding: 10px 12px;
+                min-width: 120px;
+            }
+            .prose th {
+                font-size: 0.8rem;
+                font-weight: 700;
+            }
+            .prose td {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .prose table {
+                margin: 1rem -1rem;
+                min-width: 500px;
+            }
+            .prose th,
+            .prose td {
+                padding: 8px 10px;
+                min-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .prose table {
+                margin: 1rem -1.5rem;
+                min-width: 400px;
+            }
+            .prose th,
+            .prose td {
+                padding: 6px 8px;
+                min-width: 80px;
+                font-size: 0.75rem;
+            }
+            .prose th {
+                font-size: 0.75rem;
+            }
         }
 
         .no-scrollbar::-webkit-scrollbar {
