@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heyputer/puter.js": "^2.2.2",
+    "html2pdf.js": "^0.12.1",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-markdown": "^10.1.0",

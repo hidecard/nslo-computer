@@ -7,6 +7,7 @@ import { generateLessonContent, generateQuiz, askAiTutor } from './services/gemi
 import QuizComponent from './components/QuizComponent';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import html2pdf from 'html2pdf.js';
 
 const App: React.FC = () => {
   const [selectedLevel, setSelectedLevel] = useState<Level | null>(null);
@@ -169,6 +170,168 @@ const App: React.FC = () => {
     return { intro, sections };
   };
 
+  const handleDownloadPDF = () => {
+    if (!aiContent || !activeTopic) return;
+
+    // Create a temporary container for AI content only
+    const tempContainer = document.createElement('div');
+    tempContainer.style.cssText = `
+      padding: 15px;
+      background: white;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 11pt;
+      color: #000000;
+      line-height: 1.4;
+      page-break-inside: avoid;
+    `;
+
+    // Add topic title
+    const titleElement = document.createElement('h1');
+    titleElement.textContent = activeTopic;
+    titleElement.style.cssText = `
+      font-size: 18pt;
+      font-weight: bold;
+      color: #000000;
+      margin-bottom: 20px;
+      text-align: center;
+      border-bottom: 2px solid #000000;
+      padding-bottom: 10px;
+    `;
+    tempContainer.appendChild(titleElement);
+
+    // Add AI-generated content
+    const contentContainer = document.createElement('div');
+    contentContainer.style.cssText = `
+      font-size: 11pt;
+      color: #000000;
+      line-height: 1.4;
+    `;
+
+    // Helper function to clean markdown formatting and handle tables
+    const cleanMarkdown = (text: string) => {
+      // Handle tables first - convert markdown tables to HTML
+      const tableRegex = /\|(.+)\|[\r\n]+\|[-:| ]+\|[\r\n]+((?:\|.+\|[\r\n]+)+)/g;
+      let processedText = text.replace(tableRegex, (match, headerRow, bodyRows) => {
+        const headers = headerRow.split('|').map(h => h.trim()).filter(h => h);
+        const body = bodyRows.trim().split('\n').map(row =>
+          row.split('|').map(cell => cell.trim()).filter(cell => cell)
+        );
+
+        let html = '<table style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 10pt;">';
+
+        // Add header
+        html += '<thead><tr>';
+        headers.forEach(header => {
+          html += `<th style="border: 1px solid #000; padding: 8px; background-color: #f0f0f0; font-weight: bold;">${header}</th>`;
+        });
+        html += '</tr></thead>';
+
+        // Add body
+        html += '<tbody>';
+        body.forEach(row => {
+          html += '<tr>';
+          row.forEach(cell => {
+            html += `<td style="border: 1px solid #000; padding: 8px;">${cell}</td>`;
+          });
+          html += '</tr>';
+        });
+        html += '</tbody></table>';
+
+        return html;
+      });
+
+      // Clean other markdown formatting
+      processedText = processedText
+        .replace(/^##\s*/gm, '') // Remove ## headers
+        .replace(/\*\*(.*?)\*\*/g, '$1') // Remove **bold** formatting
+        .replace(/\*(.*?)\*/g, '$1') // Remove *italic* formatting
+        .replace(/^\*\s*/gm, '') // Remove bullet points
+        .replace(/^- /gm, '') // Remove dash bullet points
+        .trim();
+
+      return processedText;
+    };
+
+    if (parsedContent && parsedContent.sections.length > 0) {
+      // Add intro if exists
+      if (parsedContent.intro) {
+        const introElement = document.createElement('div');
+        introElement.style.cssText = `
+          background: #f8fafc;
+          padding: 24px;
+          border-radius: 16px;
+          margin-bottom: 32px;
+          border: 1px solid #e2e8f0;
+          font-style: italic;
+        `;
+        introElement.textContent = cleanMarkdown(parsedContent.intro);
+        contentContainer.appendChild(introElement);
+      }
+
+      // Add sections
+      parsedContent.sections.forEach((sec, index) => {
+        const sectionElement = document.createElement('div');
+        sectionElement.style.cssText = `
+          margin-bottom: 15px;
+          page-break-inside: avoid;
+        `;
+
+        const sectionTitle = document.createElement('h2');
+        sectionTitle.textContent = `${index + 1}. ${cleanMarkdown(sec.title)}`;
+        sectionTitle.style.cssText = `
+          font-size: 14pt;
+          font-weight: bold;
+          color: #000000;
+          margin: 0 0 8px 0;
+          padding: 0;
+        `;
+        sectionElement.appendChild(sectionTitle);
+
+        const sectionBody = document.createElement('div');
+        sectionBody.style.cssText = `
+          margin-left: 15px;
+          line-height: 1.4;
+          margin-bottom: 10px;
+          page-break-inside: avoid;
+        `;
+        sectionBody.innerHTML = cleanMarkdown(sec.body);
+        sectionElement.appendChild(sectionBody);
+
+        contentContainer.appendChild(sectionElement);
+      });
+    } else if (aiContent) {
+      // Add direct AI content
+      const contentElement = document.createElement('div');
+      contentElement.style.cssText = `
+        background: white;
+        padding: 24px;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        line-height: 1.7;
+      `;
+      contentElement.innerHTML = cleanMarkdown(aiContent);
+      contentContainer.appendChild(contentElement);
+    }
+
+    tempContainer.appendChild(contentContainer);
+
+    // Add to DOM temporarily for PDF generation
+    document.body.appendChild(tempContainer);
+
+    const opt = {
+      margin: 0.2,
+      filename: `${activeTopic.replace(/\s+/g, '_')}.pdf`,
+      image: { type: 'jpeg' as const, quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'in', format: 'a4' as const, orientation: 'portrait' as const }
+    };
+
+    html2pdf().set(opt).from(tempContainer).save().then(() => {
+      // Clean up temporary element
+      document.body.removeChild(tempContainer);
+    });
+  };
+
   const parsedContent = aiContent ? parseSections(aiContent) : null;
   const currentIndex = selectedLevel && activeTopic ? selectedLevel.topics.indexOf(activeTopic) : -1;
   const isFirstTopic = currentIndex === 0;
@@ -314,7 +477,7 @@ const App: React.FC = () => {
                 </div>
               ) : view === 'lesson' ? (
                 <div className="animate-slide-up">
-                  <article className="bg-white rounded-[40px] p-8 md:p-14 shadow-sm border border-slate-200 relative mb-20 overflow-hidden">
+                  <article className="bg-white rounded-[40px] p-8 md:p-14 shadow-sm border border-slate-200 relative mb-20 overflow-hidden lesson-content">
                     {/* Header Decoration */}
                     <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
                     
@@ -326,11 +489,11 @@ const App: React.FC = () => {
                         <h1 className="text-3xl md:text-4xl font-black text-slate-900 myanmar-text tracking-tight">{activeTopic}</h1>
                       </div>
                       
-                      <button 
+                      <button
                         onClick={() => selectedLevel && activeTopic && toggleBookmark(selectedLevel, activeTopic)}
                         className={`flex items-center gap-2 px-6 py-3 rounded-2xl transition-standard text-sm font-bold shadow-sm ${
-                          bookmarks.some(b => b.levelId === selectedLevel?.id && b.topic === activeTopic) 
-                            ? 'bg-indigo-50 text-indigo-700' 
+                          bookmarks.some(b => b.levelId === selectedLevel?.id && b.topic === activeTopic)
+                            ? 'bg-indigo-50 text-indigo-700'
                             : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                         }`}
                       >
@@ -338,6 +501,21 @@ const App: React.FC = () => {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                         </svg>
                         {bookmarks.some(b => b.levelId === selectedLevel?.id && b.topic === activeTopic) ? 'Saved' : 'Save'}
+                      </button>
+
+                      <button
+                        onClick={handleDownloadPDF}
+                        disabled={!aiContent}
+                        className={`flex items-center gap-2 px-6 py-3 rounded-2xl transition-standard text-sm font-bold shadow-sm ${
+                          aiContent
+                            ? 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-indigo-600'
+                            : 'bg-slate-50 border border-slate-200 text-slate-300 cursor-not-allowed'
+                        }`}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        PDF
                       </button>
                     </div>
 
