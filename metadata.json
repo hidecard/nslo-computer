@@ -1,0 +1,7 @@
+{
+  "name": "NSLO Computer Learning Roadmap",
+  "description": "A comprehensive Myanmar Computer Curriculum application featuring 9 levels of ICT training with integrated AI tutoring, quiz generation, and lesson assistance using Gemini API.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
