@@ -18,6 +18,7 @@ const App: React.FC = () => {
   const [view, setView] = useState<ViewType>('roadmap');
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [openSections, setOpenSections] = useState<number[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   
   // AI Tutor State
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
@@ -337,6 +338,10 @@ const App: React.FC = () => {
   const isFirstTopic = currentIndex === 0;
   const isLastTopic = selectedLevel ? currentIndex === selectedLevel.topics.length - 1 : true;
 
+  // Get unique categories for filter
+  const categories = ['All', ...Array.from(new Set(CURRICULUM.map(level => level.category)))];
+  const filteredCurriculum = selectedCategory === 'All' ? CURRICULUM : CURRICULUM.filter(level => level.category === selectedCategory);
+
   return (
     <Layout onNavigate={(v) => { if (v === 'roadmap') resetToRoadmap(); }}>
       {view === 'roadmap' ? (
@@ -358,8 +363,27 @@ const App: React.FC = () => {
             </p>
           </div>
 
+          {/* Category Filter */}
+          <div className="mb-12">
+            <div className="flex flex-wrap gap-3 justify-center">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-6 py-3 rounded-2xl font-bold text-sm transition-standard ${
+                    selectedCategory === category
+                      ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-100'
+                      : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-indigo-300'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {CURRICULUM.map((level) => (
+            {filteredCurriculum.map((level) => (
               <div 
                 key={level.id}
                 onClick={() => handleSelectLevel(level)}

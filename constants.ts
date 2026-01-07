@@ -7,6 +7,7 @@ export const CURRICULUM: Level[] = [
     title: "ICT FOUNDATION (Beginner)",
     description: "Building the basic foundation of computing for absolute beginners.",
     target: "ကွန်ပျူတာ မသိသေးသူများအတွက်",
+    category: "Beginner",
     topics: [
       "Computer ဆိုတာဘာလဲ (Introduction)",
       "Hardware နှင့် Software ကွာခြားချက်",
@@ -90,6 +91,7 @@ export const CURRICULUM: Level[] = [
     title: "Computer System & Windows",
     description: "Understanding operating systems and file management.",
     target: "Windows အသုံးပြုနည်း ကျွမ်းကျင်လိုသူများအတွက်",
+    category: "Intermediate",
     topics: [
       "Windows 10/11 Interface အကြောင်း",
       "Desktop, Taskbar နှင့် Start Menu",
@@ -173,6 +175,7 @@ export const CURRICULUM: Level[] = [
     title: "Internet & Email",
     description: "Connecting to the digital world safely.",
     target: "အင်တာနက်နှင့် အီးမေးလ် အသုံးပြုလိုသူများအတွက်",
+    category: "Intermediate",
     topics: [
       "Internet နှင့် World Wide Web (WWW)",
       "Browsers (Chrome, Edge, Firefox)",
@@ -256,6 +259,7 @@ export const CURRICULUM: Level[] = [
     title: "Microsoft Word",
     description: "Mastering professional document creation.",
     target: "စာစီစာရိုက်နှင့် ရုံးလုပ်ငန်း ကျွမ်းကျင်လိုသူများအတွက်",
+    category: "Intermediate",
     topics: [
       "MS Word Interface နှင့် Ribbon Overview",
       "New Document တည်ဆောက်ခြင်းနှင့် Save လုပ်နည်း",
@@ -335,6 +339,7 @@ export const CURRICULUM: Level[] = [
   {
     id: 5,
     title: "Microsoft Excel",
+        category: "Intermediate",
     description: "Data management and basic calculations.",
     target: "စာရင်းဇယားနှင့် တွက်ချက်မှု ကျွမ်းကျင်လိုသူများအတွက်",
     topics: [
@@ -416,6 +421,7 @@ export const CURRICULUM: Level[] = [
     title: "PowerPoint",
     description: "Creating effective presentations.",
     target: "တင်ပြမှုစွမ်းရည် တိုးတက်လိုသူများအတွက်",
+    category: "Intermediate",
     topics: [
       "PowerPoint Interface နှင့် Slide Layouts",
       "New Slide ထည့်နည်းနှင့် Slide Master Intro",
@@ -491,6 +497,8 @@ export const CURRICULUM: Level[] = [
   {
     id: 7,
     title: "AI for Daily Life",
+        category: "Ai",
+
     description: "Leveraging modern AI tools for productivity.",
     target: "AI ကို ထိရောက်စွာ အသုံးပြုလိုသူများအတွက်",
     topics: [
@@ -567,6 +575,7 @@ export const CURRICULUM: Level[] = [
     title: "Myanmar Typing",
     description: "Fast and accurate Myanmar language typing.",
     target: "မြန်မာစာရိုက် ကျွမ်းကျင်လိုသူများအတွက်",
+    category: "Specialized",
     topics: [
       "Myanmar Unicode Standard အကြောင်း",
       "Zawgyi နှင့် Unicode ကွာခြားချက်",
@@ -632,6 +641,8 @@ export const CURRICULUM: Level[] = [
   {
     id: 9,
     title: "Computer Error & Fixing",
+        category: "Computer Error",
+
     description: "Basic troubleshooting and hardware maintenance.",
     target: "ကွန်ပျူတာ ပြဿနာများကို ကိုယ်တိုင်ဖြေရှင်းလိုသူများအတွက်",
     topics: [
@@ -711,6 +722,7 @@ export const CURRICULUM: Level[] = [
     title: "Windows OS Mastery",
     description: "Complete mastery of Windows operating system.",
     target: "Windows အထူးကျွမ်းကျင်လိုသူများအတွက်",
+    category: "Advanced",
     topics: [
       "Windows 11 Advanced Features",
       "PowerShell Scripting Mastery",
@@ -784,6 +796,7 @@ export const CURRICULUM: Level[] = [
     title: "Digital Skills for Work & Business",
     description: "အလုပ်လုပ်ရာမှာ တကယ်အသုံးချရမယ့် Digital Skill များ",
     target: "အလုပ်လုပ်ငန်းများတွင် ဒစ်ဂျစ်တယ် ကျွမ်းကျင်လိုသူများအတွက်",
+    category: "Intermediate",
     topics: [
       "Google Drive (Docs, Sheets, Slides)",
       "Cloud Storage Concept",
@@ -891,6 +904,7 @@ export const CURRICULUM: Level[] = [
     title: "AI + Automation (Advanced)",
     description: "AI ကို အလုပ်တွေနဲ့ ချိတ်ဆက်အသုံးချခြင်း",
     target: "AI နှင့် Automation ကို အလုပ်တွင် အသုံးချလိုသူများအတွက်",
+    category: "Advanced",
     topics: [
       "AI for Office Automation",
       "Prompt Engineering Advanced",
@@ -968,6 +982,8 @@ export const CURRICULUM: Level[] = [
   {
     id: 13,
     title: "Social Media & Online Safety",
+        category: "Social Media",
+
     description: "Social Media ကို ထိရောက်ပြီး လုံခြုံစွာ အသုံးချနိုင်ဖို့",
     target: "Social Media နှင့် Online Safety ကို လေ့လာလိုသူများအတွက်",
     topics: [
@@ -1056,6 +1072,7 @@ export const CURRICULUM: Level[] = [
     title: "Daily Life Use Case Learning",
     description: "နေ့စဉ်ဘဝနဲ့ ချိတ်ပြီး သင်ခြင်း",
     target: "နေ့စဉ်ဘဝတွင် တကယ်ဖြစ်နိုင်သော နည်းပညာပြဿနာများကို ဖြေရှင်းနည်းလမ်းများကို လေ့လာလိုသူများအတွက်",
+    category: "Beginner",
     topics: [
       "USB ပျောက်သွားရင် ဘာလုပ်မလဲ",
       "Email မဝင်ရင် ဘယ်လိုဖြေရှင်းမလဲ",
@@ -1126,6 +1143,8 @@ export const CURRICULUM: Level[] = [
   {
     id: 15,
     title: "Basic IT Support Awareness",
+        category: "It Support",
+
     description: "IT မဟုတ်ပေမယ့် IT နားလည်စေဖို့",
     target: "IT အခြေခံကို နားလည်စေလိုသူများအတွက်",
     topics: [
@@ -1203,6 +1222,7 @@ export const CURRICULUM: Level[] = [
     title: "IT Career & Freelancing",
     description: "သင်ထားတဲ့ Skill ကို ငွေဖြစ်အောင် ပြောင်းခြင်း",
     target: "IT Career နှင့် Freelancing ကို စလိုလိုသူများအတွက်",
+    category: "Advanced",
     topics: [
       "IT Career Paths Overview",
       "Freelancing Platforms",

@@ -10,6 +10,7 @@ export interface Level {
   title: string;
   description: string;
   target: string;
+  category: string;
   topics: string[];
   aiFeatures: {
     type: string;
