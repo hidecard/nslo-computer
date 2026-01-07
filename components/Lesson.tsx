@@ -326,7 +326,7 @@ const Lesson: React.FC = () => {
     <div className="min-h-screen bg-slate-950">
       {/* Header */}
       <div className="bg-slate-950/80 backdrop-blur-lg border-b border-white/5 px-4 py-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <button
             onClick={() => navigate(`/level/${levelId}`)}
             className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 mb-4 transition-all text-sm font-medium tracking-wider"
@@ -350,7 +350,7 @@ const Lesson: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-40">
             <div className="w-16 h-16 relative mb-6">

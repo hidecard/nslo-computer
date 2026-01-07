@@ -31,7 +31,7 @@ const Roadmap: React.FC = () => {
         {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px]"></div>
         
-        <div className="max-w-6xl mx-auto text-center relative z-10">
+        <div className="max-w-7xl mx-auto text-center relative z-10">
           {/* Premium Badge */}
           <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 backdrop-blur-sm rounded-full mb-8 border border-white/10">
             <span className="w-2 h-2 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full animate-pulse"></span>
