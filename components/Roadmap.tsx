@@ -31,18 +31,14 @@ const Roadmap: React.FC = () => {
             <span className="text-sm font-medium text-blue-200 tracking-wide">ELEVATE YOUR SKILLS</span>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-8 tracking-tight">
-            <span className="bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-              Master Computer Science
-            </span>
-            <br />
+          <h3 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-8 tracking-tight">
             <span className="bg-gradient-to-r from-blue-400 via-cyan-500 to-violet-600 bg-clip-text text-transparent">
-              With Excellence
+              Build your future, step by step.
             </span>
-          </h1>
-          
+          </h3>
+
           <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed mb-10">
-            An elite learning experience designed for ambitious minds. Transform your future with world-class curriculum and AI-powered guidance.
+            ကွန်ပျူတာ အခြေခံမှစတင်ပြီး ကျွမ်းကျင်သူအဆင့်ထိ လေ့လာနိုင်မည့် စနစ်တကျရေးဆွဲထားသော သင်ရိုးညွှန်းတမ်း
           </p>
           
           {/* Premium CTA Buttons */}
@@ -62,21 +58,7 @@ const Roadmap: React.FC = () => {
             
           </div>
           
-          {/* Premium Stats */}
-          <div className="flex flex-wrap justify-center gap-12 mt-16 pt-8 border-t border-white/10">
-            <div className="text-center">
-              <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{CURRICULUM.length}</div>
-              <div className="text-sm text-slate-500 uppercase tracking-wider mt-1">Expert Courses</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{CURRICULUM.reduce((acc, level) => acc + level.topics.length, 0)}</div>
-              <div className="text-sm text-slate-500 uppercase tracking-wider mt-1">Comprehensive Topics</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">24/7</div>
-              <div className="text-sm text-slate-500 uppercase tracking-wider mt-1">AI Mentorship</div>
-            </div>
-          </div>
+     
         </div>
       </section>
 

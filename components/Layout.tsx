@@ -7,7 +7,7 @@ const Layout: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { path: '/', label: 'Home' },
+    { path: '/', label: 'Courses' },
     { path: '/about', label: 'About' },
     { path: '/support', label: 'Support' },
   ];
@@ -133,57 +133,38 @@ const Layout: React.FC = () => {
       </main>
 
       {/* Premium Footer */}
-      <footer className="bg-slate-950 border-t border-white/5 py-16">
+      <footer className="bg-slate-950 border-t border-white/5 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
-            {/* Brand */}
-            <div className="col-span-2 lg:col-span-1">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/30">
-                  N
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg text-white">NSLO</h3>
-                  <p className="text-xs text-slate-500">Never Stop Learning Online</p>
-                </div>
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/30">
+                N
               </div>
-              <p className="text-slate-500 text-sm leading-relaxed mb-4">
-                Empowering learners worldwide with quality computer science education.
-              </p>
-            </div>
-
-            {/* Courses */}
-            <div>
-              <h3 className="font-bold text-white mb-4">Courses</h3>
-              <div className="space-y-2">
-                <button onClick={() => navigate('/')} className="block text-slate-500 hover:text-blue-400 text-sm transition-colors">All Courses</button>
-                <button onClick={() => navigate('/about')} className="block text-slate-500 hover:text-blue-400 text-sm transition-colors">About</button>
-                <button onClick={() => navigate('/support')} className="block text-slate-500 hover:text-blue-400 text-sm transition-colors">Support</button>
+              <div>
+                <h3 className="font-bold text-white text-sm">NSLO</h3>
+                <p className="text-[8px] text-slate-500 font-medium tracking-wider">
+                  Never Stop Learning Online
+                </p>
               </div>
             </div>
-
-            {/* Company */}
-            <div>
-              <h3 className="font-bold text-white mb-4">Company</h3>
-              <div className="space-y-2">
-                <button onClick={() => navigate('/about')} className="block text-slate-500 hover:text-blue-400 text-sm transition-colors">About Us</button>
-                <button onClick={() => navigate('/support')} className="block text-slate-500 hover:text-blue-400 text-sm transition-colors">Contact</button>
-                <button onClick={() => navigate('/')} className="block text-slate-500 hover:text-blue-400 text-sm transition-colors">Careers</button>
-              </div>
+            <p className="text-slate-400 text-xs leading-relaxed mb-6 max-w-md mx-auto">
+              Empowering learners worldwide with quality computer science education.
+            </p>
+            <div className="flex flex-wrap justify-center gap-6 mb-8">
+              <button onClick={() => navigate('/')} className="text-slate-400 hover:text-blue-400 text-xs transition-colors">Courses</button>
+              <button onClick={() => navigate('/')} className="text-slate-400 hover:text-blue-400 text-xs transition-colors">All Courses</button>
+              <button onClick={() => navigate('/about')} className="text-slate-400 hover:text-blue-400 text-xs transition-colors">About</button>
+              <button onClick={() => navigate('/support')} className="text-slate-400 hover:text-blue-400 text-xs transition-colors">Support</button>
             </div>
-
-          
-          </div>
-
-          {/* Bottom Section */}
-          <div className="border-t border-white/5 mt-12 pt-8">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <p className="text-slate-500 text-sm">
-                © 2024 NSLO. All rights reserved.
-              </p>
-              <p className="text-slate-600 text-xs">
-                Made with care for learners everywhere
-              </p>
+            <div className="border-t border-white/5 pt-6">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <p className="text-slate-500 text-xs">
+                  © 2024 NSLO. All rights reserved.
+                </p>
+                <p className="text-slate-600 text-xs">
+                  Made with care for learners everywhere
+                </p>
+              </div>
             </div>
           </div>
         </div>
