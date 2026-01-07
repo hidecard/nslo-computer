@@ -343,7 +343,7 @@ const App: React.FC = () => {
   const filteredCurriculum = selectedCategory === 'All' ? CURRICULUM : CURRICULUM.filter(level => level.category === selectedCategory);
 
   return (
-    <Layout onNavigate={(v) => { if (v === 'roadmap') resetToRoadmap(); else if (v === 'about') setView('about'); }}>
+    <Layout onNavigate={(v) => { if (v === 'roadmap') resetToRoadmap(); else if (v === 'about') setView('about'); else if (v === 'support') setView('support'); }}>
       {view === 'about' ? (
         <section className="max-w-4xl mx-auto px-4 py-16 animate-slide-up">
           <div className="text-center mb-12">
@@ -436,6 +436,64 @@ const App: React.FC = () => {
                 className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-indigo-700 transition-standard shadow-xl shadow-indigo-100 active:scale-95"
               >
                 View Lessons
+              </button>
+              <p className="text-slate-500 text-sm mt-4 myanmar-text">သင်ခန်းစာများကို စတင်လေ့လာကြရအောင်</p>
+            </div>
+          </div>
+        </section>
+      ) : view === 'support' ? (
+        <section className="max-w-4xl mx-auto px-4 py-16 animate-slide-up">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-extrabold text-slate-900 mb-4">Support Us</h1>
+          </div>
+
+          <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-sm border border-slate-200">
+            {/* Support Message */}
+            <div className="text-center mb-12">
+              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-8 rounded-3xl mb-8">
+                <h2 className="text-2xl font-bold mb-4">NSLO ကို ထောက်ပံ့ပေးခြင်းဖြင့်</h2>
+                <p className="text-lg myanmar-text">မြန်မာလူငယ်များ၏ အနာဂတ်ကို အတူဖန်တီးလိုက်ပါ။</p>
+              </div>
+            </div>
+
+            {/* Payment Methods */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              {/* Wave Money */}
+              <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200 text-center">
+                <h3 className="text-xl font-bold text-slate-900 mb-6">Wave Money</h3>
+                <div className="w-48 h-48 mx-auto mb-6 bg-white rounded-2xl p-4 border border-slate-200">
+                  <img src="wavemoney.jpg" alt="Wave Money QR Code" className="w-full h-full object-contain rounded-xl" />
+                </div>
+                <p className="text-sm text-slate-600 mb-2">ဖုန်းနံပါတ်</p>
+                <p className="text-lg font-bold text-slate-900">09 758 430 371</p>
+              </div>
+
+              {/* KPay */}
+              <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200 text-center">
+                <h3 className="text-xl font-bold text-slate-900 mb-6">KPay</h3>
+                <div className="w-48 h-48 mx-auto mb-6 bg-white rounded-2xl p-4 border border-slate-200">
+                  <img src="kpay.jpg" alt="KPay QR Code" className="w-full h-full object-contain rounded-xl" />
+                </div>
+                <p className="text-sm text-slate-600 mb-2">ဖုန်းနံပါတ်</p>
+                <p className="text-lg font-bold text-slate-900">09 446 941 632</p>
+              </div>
+            </div>
+
+            {/* Thank You Message */}
+            <div className="bg-indigo-50 p-8 rounded-3xl border border-indigo-200 text-center">
+              <h3 className="text-2xl font-bold text-indigo-900 mb-4">ကျေးဇူးတင်ပါသည်!</h3>
+              <p className="text-indigo-800 myanmar-text leading-relaxed">
+                သင့်ပံ့ပိုးမှုသည် NSLO Computer ကို မြန်မာလူငယ်များအတွက် အခမဲ့ နည်းပညာပညာပေးခြင်းနှင့် အလုပ်အကိုင် လမ်းညွှန်ခြင်း ဝန်ဆောင်မှုများ ဆက်လက် ပေးနိုင်ရန် အထောက်အကူ ဖြစ်ပါသည်။
+              </p>
+            </div>
+
+            {/* Call to Action */}
+            <div className="text-center pt-8 border-t border-slate-200 mt-8">
+              <button
+                onClick={() => setView('roadmap')}
+                className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-indigo-700 transition-standard shadow-xl shadow-indigo-100 active:scale-95"
+              >
+                Start Learning
               </button>
               <p className="text-slate-500 text-sm mt-4 myanmar-text">သင်ခန်းစာများကို စတင်လေ့လာကြရအောင်</p>
             </div>

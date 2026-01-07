@@ -3,7 +3,7 @@ import React from 'react';
 
 interface LayoutProps {
   children: React.ReactNode;
-  onNavigate?: (view: 'roadmap' | 'about') => void;
+  onNavigate?: (view: 'roadmap' | 'about' | 'support') => void;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, onNavigate }) => {
@@ -31,6 +31,12 @@ const Layout: React.FC<LayoutProps> = ({ children, onNavigate }) => {
                 className="text-slate-600 hover:text-indigo-600 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold hover:bg-slate-50 transition-standard active:scale-95"
               >
                 About Us
+              </button>
+              <button
+                onClick={() => onNavigate?.('support')}
+                className="text-slate-600 hover:text-indigo-600 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold hover:bg-slate-50 transition-standard active:scale-95"
+              >
+                Support Us
               </button>
               <button
                 onClick={() => onNavigate?.('roadmap')}
