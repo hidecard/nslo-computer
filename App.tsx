@@ -347,7 +347,7 @@ const App: React.FC = () => {
       {view === 'about' ? (
         <section className="max-w-4xl mx-auto px-4 py-16 animate-slide-up">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-extrabold text-slate-900 mb-4">About Founder</h1>
+            <h1 className="text-4xl font-extrabold text-slate-900 mb-4">About Our Founder</h1>
           </div>
 
           <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-sm border border-slate-200">
