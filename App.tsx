@@ -354,7 +354,7 @@ const App: React.FC = () => {
             {/* Profile Section */}
             <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden shadow-xl border-4 border-white">
-                <img src="profile.jpg" alt="Arkar Yan" className="w-full h-full object-cover" />
+                <img src="/profile.jpg" alt="Arkar Yan" className="w-full h-full object-cover" />
               </div>
               <div className="text-center md:text-left">
                 <h2 className="text-3xl font-bold text-slate-900 mb-2">Arkar Yan</h2>
@@ -462,7 +462,7 @@ const App: React.FC = () => {
               <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200 text-center">
                 <h3 className="text-xl font-bold text-slate-900 mb-6">Wave Money</h3>
                 <div className="w-48 h-48 mx-auto mb-6 bg-white rounded-2xl p-4 border border-slate-200">
-                  <img src="wavemoney.jpg" alt="Wave Money QR Code" className="w-full h-full object-contain rounded-xl" />
+                  <img src="/wavemoney.jpg" alt="Wave Money QR Code" className="w-full h-full object-contain rounded-xl" />
                 </div>
                 <p className="text-sm text-slate-600 mb-2">ဖုန်းနံပါတ်</p>
                 <p className="text-lg font-bold text-slate-900">09 758 430 371</p>
@@ -472,7 +472,7 @@ const App: React.FC = () => {
               <div className="bg-slate-50 p-8 rounded-3xl border border-slate-200 text-center">
                 <h3 className="text-xl font-bold text-slate-900 mb-6">KPay</h3>
                 <div className="w-48 h-48 mx-auto mb-6 bg-white rounded-2xl p-4 border border-slate-200">
-                  <img src="kpay.jpg" alt="KPay QR Code" className="w-full h-full object-contain rounded-xl" />
+                  <img src="/kpay.jpg" alt="KPay QR Code" className="w-full h-full object-contain rounded-xl" />
                 </div>
                 <p className="text-sm text-slate-600 mb-2">ဖုန်းနံပါတ်</p>
                 <p className="text-lg font-bold text-slate-900">09 446 941 632</p>
@@ -644,8 +644,8 @@ const App: React.FC = () => {
           </aside>
 
           {/* Main Study Area */}
-          <main className="flex-grow overflow-y-auto z-10 px-4 sm:px-6 md:px-12 py-6 sm:py-10">
-            <div className="max-w-4xl mx-auto">
+          <main className="flex-grow overflow-y-auto z-10 px-1 sm:px-6 md:px-12 py-6 sm:py-10">
+            <div className="max-w-6xl mx-4">
               {loading ? (
                 <div className="flex flex-col items-center justify-center py-40">
                   <div className="w-16 h-16 relative mb-6">
