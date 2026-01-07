@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CURRICULUM } from '../constants';
 import { Level } from '../types';
 
 const Roadmap: React.FC = () => {
   const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+
+  const categories = ['All', 'Beginner', 'Intermediate', 'Advanced', 'Ai', 'Computer Error', 'Specialized', 'Social Media', 'It Support'];
+
+  const filteredCurriculum = selectedCategory === 'All'
+    ? CURRICULUM
+    : CURRICULUM.filter(level => level.category === selectedCategory);
 
   const handleLevelClick = (levelId: number) => {
     navigate(`/level/${levelId}`);
@@ -69,11 +76,33 @@ const Roadmap: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-4">Your Learning Path</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">A meticulously designed curriculum to take you from foundational concepts to advanced expertise</p>
+            <p className="text-slate-400 max-w-2xl mx-auto mb-8">A meticulously designed curriculum to take you from foundational concepts to advanced expertise</p>
+
+            {/* Category Filter */}
+            <div className="mb-8">
+              <div className="flex flex-wrap justify-center gap-3 mb-6">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      selectedCategory === category
+                        ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
+                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+              <p className="text-slate-500 text-sm">
+                Showing {filteredCurriculum.length} of {CURRICULUM.length} courses
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {CURRICULUM.map((level: Level) => {
+            {filteredCurriculum.map((level: Level) => {
               return (
                 <div
                   key={level.id}
