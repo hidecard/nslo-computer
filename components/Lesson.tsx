@@ -8,6 +8,44 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import html2pdf from 'html2pdf.js';
 
+const markdownComponents = {
+  table: ({ children, ...props }) => (
+    <table className="min-w-full border border-slate-600 rounded-lg overflow-hidden bg-slate-900" {...props}>
+      {children}
+    </table>
+  ),
+  thead: ({ children, ...props }) => (
+    <thead className="bg-slate-800" {...props}>
+      {children}
+    </thead>
+  ),
+  tbody: ({ children, ...props }) => (
+    <tbody className="divide-y divide-slate-700" {...props}>
+      {children}
+    </tbody>
+  ),
+  th: ({ children, ...props }) => (
+    <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider" {...props}>
+      {children}
+    </th>
+  ),
+  tr: ({ children, ...props }) => (
+    <tr className="hover:bg-transparent transition-none" {...props}>
+      {children}
+    </tr>
+  ),
+  td: ({ children, ...props }) => (
+    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300" {...props}>
+      {children}
+    </td>
+  ),
+  strong: ({ children, ...props }) => (
+    <strong className="text-white font-bold" {...props}>
+      {children}
+    </strong>
+  ),
+};
+
 const Lesson: React.FC = () => {
   const { levelId, lessonId } = useParams<{ levelId: string; lessonId: string }>();
   const navigate = useNavigate();
@@ -281,31 +319,31 @@ const Lesson: React.FC = () => {
   const parsedContent = aiContent ? parseSections(aiContent) : null;
 
   if (!level || !lesson) {
-    return <div>Lesson not found</div>;
+    return <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">Lesson not found</div>;
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-950">
       {/* Header */}
-      <div className="bg-white border-b border-slate-200 px-4 py-6">
+      <div className="bg-slate-950/80 backdrop-blur-lg border-b border-white/5 px-4 py-6">
         <div className="max-w-6xl mx-auto">
           <button
             onClick={() => navigate(`/level/${levelId}`)}
-            className="group flex items-center gap-2 text-slate-400 hover:text-indigo-600 mb-4 transition-standard text-sm font-bold uppercase tracking-widest"
+            className="group flex items-center gap-2 text-slate-400 hover:text-blue-400 mb-4 transition-all text-sm font-medium tracking-wider"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:-translate-x-1 transition-standard" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:-translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Back to Level {level.id}
           </button>
 
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-blue-500/30">
               {parseInt(lessonId || '0')}
             </div>
             <div>
-              <h1 className="text-3xl font-black text-slate-900">{lesson}</h1>
-              <p className="text-slate-600">{level.title}</p>
+              <h1 className="text-3xl font-bold text-white">{lesson}</h1>
+              <p className="text-slate-400">{level.title}</p>
             </div>
           </div>
         </div>
@@ -316,10 +354,10 @@ const Lesson: React.FC = () => {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-40">
             <div className="w-16 h-16 relative mb-6">
-              <div className="absolute inset-0 border-4 border-indigo-100 rounded-full"></div>
-              <div className="absolute inset-0 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+              <div className="absolute inset-0 border-4 border-white/10 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-xs animate-pulse">Syncing with AI Tutor...</p>
+            <p className="text-slate-400 font-medium tracking-widest text-xs animate-pulse">Syncing with AI Tutor...</p>
           </div>
         ) : quizQuestions ? (
           <div className="animate-slide-up">
@@ -330,65 +368,65 @@ const Lesson: React.FC = () => {
           </div>
         ) : (
           <div className="animate-slide-up">
-            <article className="bg-white rounded-[40px] p-8 md:p-14 shadow-sm border border-slate-200 relative mb-20 overflow-hidden lesson-content">
+            <article className="bg-gradient-to-br from-slate-900 to-slate-800/50 rounded-3xl p-8 md:p-14 border border-white/5 shadow-2xl relative mb-20 overflow-hidden">
               {/* Header Decoration */}
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500" />
 
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                     <span className="bg-indigo-100 text-indigo-700 text-[10px] font-black px-2.5 py-1 rounded-lg uppercase tracking-wider">Lesson Content</span>
+                    <span className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-300 text-xs font-medium px-3 py-1 rounded-full border border-blue-500/20">Lesson Content</span>
                   </div>
-                  <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">{lesson}</h1>
+                  <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">{lesson}</h1>
                 </div>
 
                 <button
                   onClick={handleDownloadPDF}
                   disabled={!aiContent}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-2xl transition-standard text-sm font-bold shadow-sm ${
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-all text-sm font-medium ${
                     aiContent
-                      ? 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-indigo-600'
-                      : 'bg-slate-50 border border-slate-200 text-slate-300 cursor-not-allowed'
+                      ? 'bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-blue-500/30'
+                      : 'bg-white/5 border border-white/10 text-slate-500 cursor-not-allowed'
                   }`}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                   PDF
                 </button>
               </div>
 
               {parsedContent && parsedContent.sections.length > 0 ? (
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {parsedContent.intro && (
-                    <div className="prose prose-slate max-w-none text-slate-600 bg-slate-50 p-8 rounded-3xl border border-slate-100 italic">
-                       <ReactMarkdown remarkPlugins={[remarkGfm]}>{parsedContent.intro}</ReactMarkdown>
+                    <div className="prose prose-invert max-w-none text-slate-300 bg-white/5 p-8 rounded-2xl border border-white/10 italic">
+                       <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>{parsedContent.intro}</ReactMarkdown>
                     </div>
                   )}
 
-                  <div className="grid grid-cols-1 gap-6">
+                  <div className="grid grid-cols-1 gap-4">
                     {parsedContent.sections.map((sec, idx) => (
-                      <div key={idx} className="group border border-slate-200 rounded-3xl overflow-hidden bg-white hover:border-indigo-300 transition-standard">
+                      <div key={idx} className="group bg-white/5 rounded-2xl overflow-hidden border border-white/10 hover:border-blue-500/30 transition-all">
                         <button
                           onClick={() => toggleSection(idx)}
-                          className={`w-full flex items-center justify-between px-8 py-6 text-left transition-standard ${openSections.includes(idx) ? 'bg-indigo-50/30' : 'hover:bg-slate-50'}`}
+                          className={`w-full flex items-center justify-between px-6 py-5 text-left transition-all ${openSections.includes(idx) ? 'bg-white/10' : 'hover:bg-white/5'}`}
                           >
-                          <span className="font-extrabold text-slate-900 text-xl group-hover:text-indigo-600 transition-standard">{sec.title}</span>
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-standard ${openSections.includes(idx) ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                          <span className="font-semibold text-white text-lg group-hover:text-blue-400 transition-all">{sec.title}</span>
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${openSections.includes(idx) ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' : 'bg-white/10 text-slate-400'}`}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className={`h-5 w-5 transition-transform ${openSections.includes(idx) ? 'rotate-180' : ''}`}
                               fill="none" viewBox="0 0 24 24" stroke="currentColor"
                             >
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                             </svg>
                           </div>
                         </button>
 
                         {openSections.includes(idx) && (
-                          <div className="px-8 py-8 bg-white border-t border-slate-100">
-                            <div className="prose prose-slate max-w-none text-slate-600">
-                              <ReactMarkdown remarkPlugins={[remarkGfm]}>{sec.body}</ReactMarkdown>
+                          <div className="px-6 py-6 bg-slate-900/50 border-t border-white/5">
+                            <div className="prose prose-invert max-w-none text-slate-300">
+                              <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>{sec.body}</ReactMarkdown>
                             </div>
                           </div>
                         )}
@@ -397,28 +435,28 @@ const Lesson: React.FC = () => {
                   </div>
                 </div>
               ) : aiContent ? (
-                <div className="prose prose-slate max-w-none text-slate-600 bg-white p-6 rounded-3xl border border-slate-100">
-                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{aiContent}</ReactMarkdown>
+                <div className="prose prose-invert max-w-none text-slate-300 bg-white/5 p-6 rounded-2xl border border-white/10">
+                   <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>{aiContent}</ReactMarkdown>
                 </div>
               ) : (
-                <div className="text-center py-32 bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
-                  <p className="text-slate-400 font-bold">သင်ခန်းစာ ရှင်းလင်းချက်များ ထွက်ပေါ်လာရန် ခဏစောင့်ပါ။</p>
+                <div className="text-center py-32 bg-white/5 rounded-3xl border-2 border-dashed border-white/10">
+                  <p className="text-slate-400 font-medium">သင်ခန်းစာ ရှင်းလင်းချက်များ ထွက်ပေါ်လာရန် ခဏစောင့်ပါ။</p>
                 </div>
               )}
 
               {/* AI Features */}
-              <div className="mt-12 pt-8 border-t border-slate-100">
-                <h3 className="text-lg font-bold text-slate-900 mb-4">AI Learning Tools</h3>
+              <div className="mt-12 pt-8 border-t border-white/10">
+                <h3 className="text-lg font-bold text-white mb-4">AI Learning Tools</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {level.aiFeatures.map((feat, idx) => (
                     <button
                       key={idx}
                       onClick={() => feat.type === 'QUIZ' ? handleStartQuiz(level.title, lesson) : handleGenerateAI(level.title, lesson, feat.type as AIMode)}
-                      className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-standard group"
+                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/30 hover:bg-white/10 transition-all group"
                     >
-                      <span className="text-sm font-bold text-slate-700 group-hover:text-indigo-700">{feat.description}</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-0.5 transition-standard" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-all">{feat.description}</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-500 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                     </button>
                   ))}
@@ -429,36 +467,36 @@ const Lesson: React.FC = () => {
         )}
       </div>
 
-      {/* SaaS Style AI Tutor Chatbot */}
+      {/* Premium AI Tutor Chatbot */}
       <div className="fixed bottom-4 sm:bottom-8 right-4 sm:right-8 z-[100] flex flex-col items-end gap-4 sm:gap-6 pointer-events-none">
         {isChatOpen && (
-          <div className="w-[calc(100vw-2rem)] sm:w-[380px] md:w-[480px] h-[calc(100vh-8rem)] sm:h-[650px] max-h-[85vh] bg-white rounded-[24px] sm:rounded-[32px] shadow-[0_32px_64px_-12px_rgba(16,24,40,0.2)] border border-slate-200 overflow-hidden flex flex-col pointer-events-auto animate-slide-up">
-            <div className="bg-slate-900 px-8 py-6 flex items-center justify-between text-white shadow-lg">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center border-2 border-white/20 shadow-lg">
-                  <span className="text-xl font-black">AI</span>
+          <div className="w-[calc(100vw-2rem)] sm:w-[380px] md:w-[480px] h-[calc(100vh-8rem)] sm:h-[650px] max-h-[85vh] bg-slate-900 rounded-3xl shadow-2xl border border-white/10 overflow-hidden flex flex-col pointer-events-auto animate-slide-up">
+            <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-5 flex items-center justify-between border-b border-white/10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                  <span className="text-lg font-bold text-white">AI</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-base">NSLO Tutor</h3>
-                  <p className="text-[10px] opacity-60 uppercase font-black tracking-widest text-indigo-400">Always Active</p>
+                  <h3 className="font-bold text-white">NSLO Tutor</h3>
+                  <p className="text-[10px] text-blue-400 uppercase font-medium tracking-wider">Always Active</p>
                 </div>
               </div>
-              <button onClick={() => setIsChatOpen(false)} className="w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded-xl transition-standard">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+              <button onClick={() => setIsChatOpen(false)} className="w-9 h-9 flex items-center justify-center hover:bg-white/10 rounded-lg transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            <div className="flex-grow p-6 space-y-6 overflow-y-auto bg-slate-50/30 no-scrollbar">
+            <div className="flex-grow p-6 space-y-4 overflow-y-auto bg-slate-950 no-scrollbar">
               {chatHistory.length === 0 && (
                 <div className="text-center py-20 px-8">
-                  <div className="w-20 h-20 bg-white rounded-[28px] flex items-center justify-center mx-auto mb-8 shadow-md border border-slate-100">
-                     <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-blue-500/20">
+                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                      </svg>
                   </div>
-                  <h4 className="text-slate-900 font-extrabold text-lg mb-2">How can I help you today?</h4>
+                  <h4 className="text-white font-bold text-lg mb-2">How can I help you today?</h4>
                   <p className="text-slate-500 text-sm leading-relaxed">
                     Ask me anything about this lesson!
                   </p>
@@ -467,10 +505,10 @@ const Lesson: React.FC = () => {
 
               {chatHistory.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`}>
-                  <div className={`max-w-[90%] px-6 py-4 rounded-[24px] text-sm shadow-sm ${
+                  <div className={`max-w-[85%] px-5 py-4 rounded-2xl text-sm ${
                     msg.role === 'user'
-                    ? 'bg-indigo-600 text-white rounded-tr-none'
-                    : 'bg-white text-slate-700 border border-slate-200 rounded-tl-none font-medium'
+                    ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-tr-none'
+                    : 'bg-white/10 text-slate-200 border border-white/10 rounded-tl-none'
                   }`}>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.text}</ReactMarkdown>
                   </div>
@@ -479,33 +517,33 @@ const Lesson: React.FC = () => {
 
               {chatLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white px-5 py-4 rounded-[24px] rounded-tl-none shadow-sm border border-slate-200 flex gap-2 items-center">
+                  <div className="bg-white/10 px-5 py-4 rounded-2xl rounded-tl-none flex gap-2 items-center border border-white/10">
                     <div className="flex gap-1">
-                      <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce"></span>
-                      <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                      <span className="w-1.5 h-1.5 bg-indigo-300 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                      <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce"></span>
+                      <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                      <span className="w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce [animation-delay:0.4s]"></span>
                     </div>
-                    <span className="text-[10px] font-black text-slate-400 ml-2 uppercase tracking-widest">Generating...</span>
+                    <span className="text-[10px] font-medium text-slate-500 ml-2 uppercase tracking-wider">Generating...</span>
                   </div>
                 </div>
               )}
               <div ref={chatEndRef} />
             </div>
 
-            <form onSubmit={handleSendMessage} className="p-6 bg-white border-t border-slate-100">
+            <form onSubmit={handleSendMessage} className="p-5 bg-slate-900 border-t border-white/10">
               <div className="relative flex items-center">
                 <input
                   type="text"
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   placeholder="Ask anything..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-[20px] pl-6 pr-14 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-standard"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl pl-5 pr-14 py-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
                   disabled={chatLoading}
                 />
                 <button
                   type="submit"
                   disabled={!chatInput.trim() || chatLoading}
-                  className="absolute right-2 bg-indigo-600 text-white w-10 h-10 rounded-[14px] flex items-center justify-center hover:bg-indigo-700 disabled:opacity-30 transition-standard active:scale-90"
+                  className="absolute right-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white w-10 h-10 rounded-lg flex items-center justify-center hover:shadow-lg hover:shadow-blue-500/25 disabled:opacity-30 transition-all active:scale-95"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
@@ -518,23 +556,23 @@ const Lesson: React.FC = () => {
 
         <button
           onClick={() => setIsChatOpen(!isChatOpen)}
-          className="w-16 h-16 bg-slate-900 rounded-[24px] shadow-2xl flex items-center justify-center text-white hover:bg-black hover:scale-110 active:scale-95 transition-all pointer-events-auto group relative border-4 border-white"
+          className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-2xl shadow-blue-500/30 flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all pointer-events-auto group relative border-2 border-white/10"
         >
           {isChatOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           ) : (
             <div className="relative">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
               </svg>
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-indigo-500 rounded-full border-2 border-white animate-pulse"></span>
+              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-white rounded-full border-2 border-slate-900 animate-pulse"></span>
             </div>
           )}
           {/* Tooltip */}
           {!isChatOpen && (
-            <span className="absolute right-20 bg-slate-900 text-white text-[10px] font-black px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-standard pointer-events-none whitespace-nowrap shadow-xl border border-white/10">
+            <span className="absolute right-16 bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all pointer-events-none whitespace-nowrap shadow-xl border border-white/10">
               AI TUTOR
             </span>
           )}

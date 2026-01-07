@@ -202,7 +202,37 @@
             line-height: 1.6;
         }
         .prose tbody tr:hover {
-            background-color: #fafbfc;
+            background-color: transparent !important;
+        }
+
+        /* Disable hover for all table rows */
+        .prose table tbody tr,
+        .prose tbody tr,
+        table tbody tr {
+            transition: none !important;
+        }
+        .prose table tbody tr:hover,
+        .prose tbody tr:hover,
+        table tbody tr:hover {
+            background-color: transparent !important;
+        }
+
+        /* Force bold text to be white */
+        .prose strong, .prose b,
+        .prose-invert strong, .prose-invert b,
+        .markdown-content strong, .markdown-content b {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+
+        /* Highlighted text styling */
+        .prose mark, .prose-invert mark,
+        .markdown-content mark, mark {
+            background-color: transparent !important;
+            color: #f3c12a !important;
+            font-weight: 600 !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
         }
 
         /* AI Content Section Spacing */
