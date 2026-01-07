@@ -3,7 +3,7 @@ import React from 'react';
 
 interface LayoutProps {
   children: React.ReactNode;
-  onNavigate?: (view: 'roadmap') => void;
+  onNavigate?: (view: 'roadmap' | 'about') => void;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, onNavigate }) => {
@@ -20,12 +20,18 @@ const Layout: React.FC<LayoutProps> = ({ children, onNavigate }) => {
                 N
               </div>
               <div className="min-w-0">
-                <h1 className="font-bold text-slate-900 leading-tight tracking-tight text-sm sm:text-base truncate">NSLO Computer</h1>
-                <p className="text-[9px] sm:text-[10px] text-indigo-600 font-bold uppercase tracking-wider hidden sm:block">Myanmar ICT Roadmap</p>
+                <h1 className="font-bold text-slate-900 leading-tight tracking-tight text-sm sm:text-base truncate">NSLO</h1>
+                <p className="text-[9px] sm:text-[10px] text-indigo-600 font-bold uppercase tracking-wider hidden sm:block">Never Stop Learning Online</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 sm:gap-4">
+              <button
+                onClick={() => onNavigate?.('about')}
+                className="text-slate-600 hover:text-indigo-600 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold hover:bg-slate-50 transition-standard active:scale-95"
+              >
+                About Us
+              </button>
               <button
                 onClick={() => onNavigate?.('roadmap')}
                 className="bg-indigo-600 text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold hover:bg-indigo-700 transition-standard shadow-lg shadow-indigo-100 active:scale-95"
@@ -48,7 +54,7 @@ const Layout: React.FC<LayoutProps> = ({ children, onNavigate }) => {
               <div className="w-5 h-5 sm:w-6 sm:h-6 bg-slate-200 rounded-lg flex items-center justify-center">
                 <span className="text-xs font-bold text-slate-400">N</span>
               </div>
-              <p className="text-slate-500 text-xs sm:text-sm font-medium">© 2024 NSLO Computer Myanmar</p>
+              <p className="text-slate-500 text-xs sm:text-sm font-medium">© 2024 NSLO ( Never Stop Learning Online )</p>
             </div>
           </div>
         </div>

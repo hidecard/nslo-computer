@@ -36,7 +36,7 @@ export interface ChatMessage {
   text: string;
 }
 
-export type ViewType = 'roadmap' | 'lesson' | 'quiz';
+export type ViewType = 'roadmap' | 'lesson' | 'quiz' | 'about';
 
 export enum AIMode {
   EXPLAIN = 'EXPLAIN',
