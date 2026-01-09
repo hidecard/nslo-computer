@@ -1,0 +1,13 @@
+/* Override code view background to white */
+div.bg-black {
+  background-color: white !important;
+}
+
+pre.bg-black {
+  background-color: white !important;
+}
+
+/* Ensure code text is visible on white background */
+pre.bg-black code {
+  color: #333 !important;
+}

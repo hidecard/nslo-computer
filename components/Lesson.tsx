@@ -8,9 +8,79 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import html2pdf from 'html2pdf.js';
 
-const markdownComponents = {
+// Custom Code Block Component with Copy Feature
+const CodeBlock: React.FC<{ children: string; className?: string }> = ({ children, className }) => {
+  const [copied, setCopied] = useState(false);
+  const codeRef = useRef<HTMLDivElement>(null);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(children.trim());
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  const language = className ? className.replace('language-', '') : '';
+
+  return (
+    <div className="relative group my-6 rounded-xl overflow-hidden bg-black border border-white/10">
+      {/* Code Header */}
+      <div className="flex items-center justify-between px-4 py-2 bg-[#16161e] border-b border-white/5">
+        <div className="flex items-center gap-3">
+          <div className="flex gap-1.5">
+            <span className="w-3 h-3 rounded-full bg-[#ff5f56]"></span>
+            <span className="w-3 h-3 rounded-full bg-[#ffbd2e]"></span>
+            <span className="w-3 h-3 rounded-full bg-[#27c93f]"></span>
+          </div>
+          {language && (
+            <span className="text-xs text-slate-500 font-medium uppercase tracking-wider ml-2">
+              {language}
+            </span>
+          )}
+        </div>
+        <button
+          onClick={handleCopy}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            copied
+              ? 'bg-green-500/20 text-green-400'
+              : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
+          }`}
+        >
+          {copied ? (
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              Copied!
+            </>
+          ) : (
+            <>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+              </svg>
+              Copy
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Code Content */}
+      <div ref={codeRef} className="p-4 overflow-x-auto bg-black">
+        <pre className="text-sm font-mono leading-relaxed bg-black">
+          <code className={`text-[#EC010D] ${className || ''}`}>{children}</code>
+        </pre>
+      </div>
+    </div>
+  );
+};
+
+const markdownComponents: Record<string, React.FC<any>> = {
   table: ({ children, ...props }) => (
-    <table className="min-w-full border border-slate-600 rounded-lg overflow-hidden bg-slate-900" {...props}>
+    <table className="min-w-full border border-slate-600 rounded-lg overflow-hidden bg-slate-900 my-6" {...props}>
       {children}
     </table>
   ),
@@ -43,6 +113,82 @@ const markdownComponents = {
     <strong className="text-white font-bold" {...props}>
       {children}
     </strong>
+  ),
+  code: ({ className, children, ...props }) => {
+    // Check if it's inline code or code block
+    const isInline = !className && !children?.toString().includes('\n');
+    
+    if (isInline) {
+      return (
+        <code className="px-2 py-0.5 bg-white/10 rounded text-blue-300 text-sm font-mono" {...props}>
+          {children}
+        </code>
+      );
+    }
+    
+    // It's a code block - pass to our custom component
+    return <CodeBlock className={className}>{String(children).replace(/\n$/, '')}</CodeBlock>;
+  },
+  pre: ({ children, ...props }) => {
+    // Extract the code from nested elements
+    const codeChild = children as React.ReactElement;
+    if (codeChild?.props?.children) {
+      return <CodeBlock className={codeChild.props.className}>{String(codeChild.props.children).replace(/\n$/, '')}</CodeBlock>;
+    }
+    return <div {...props}>{children}</div>;
+  },
+  h1: ({ children, ...props }) => (
+    <h1 className="text-3xl font-bold text-white mb-6 mt-8" {...props}>
+      {children}
+    </h1>
+  ),
+  h2: ({ children, ...props }) => (
+    <h2 className="text-2xl font-bold text-white mb-4 mt-8 pb-2 border-b border-white/10" {...props}>
+      {children}
+    </h2>
+  ),
+  h3: ({ children, ...props }) => (
+    <h3 className="text-xl font-bold text-white mb-3 mt-6" {...props}>
+      {children}
+    </h3>
+  ),
+  h4: ({ children, ...props }) => (
+    <h4 className="text-lg font-bold text-white mb-2 mt-6" {...props}>
+      {children}
+    </h4>
+  ),
+  p: ({ children, ...props }) => (
+    <p className="text-slate-300 leading-relaxed mb-4" {...props}>
+      {children}
+    </p>
+  ),
+  ul: ({ children, ...props }) => (
+    <ul className="list-disc list-inside space-y-2 mb-4 text-slate-300" {...props}>
+      {children}
+    </ul>
+  ),
+  ol: ({ children, ...props }) => (
+    <ol className="list-decimal list-inside space-y-2 mb-4 text-slate-300" {...props}>
+      {children}
+    </ol>
+  ),
+  li: ({ children, ...props }) => (
+    <li className="text-slate-300 leading-relaxed" {...props}>
+      {children}
+    </li>
+  ),
+  a: ({ children, href, ...props }) => (
+    <a href={href} className="text-blue-400 hover:text-blue-300 underline transition-colors" {...props}>
+      {children}
+    </a>
+  ),
+  blockquote: ({ children, ...props }) => (
+    <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-4 bg-white/5 rounded-r-lg" {...props}>
+      {children}
+    </blockquote>
+  ),
+  hr: ({ ...props }) => (
+    <hr className="border-white/10 my-8" {...props} />
   ),
 };
 
@@ -241,11 +387,11 @@ const Lesson: React.FC = () => {
       if (parsedContent.intro) {
         const introElement = document.createElement('div');
         introElement.style.cssText = `
-          background: #f8fafc;
+          background: #5981A8;
           padding: 24px;
           border-radius: 16px;
           margin-bottom: 32px;
-          border: 1px solid #e2e8f0;
+          border: 1px solid #153155;
           font-style: italic;
         `;
         introElement.textContent = cleanMarkdown(parsedContent.intro);
