@@ -132,8 +132,8 @@ const markdownComponents: Record<string, React.FC<any>> = {
   pre: ({ children, ...props }: any) => {
     // Extract the code from nested elements
     const codeChild = React.isValidElement(children) ? children : null;
-    if (codeChild?.props?.children) {
-      return <CodeBlock className={codeChild.props.className}>{String(codeChild.props.children).replace(/\n$/, '')}</CodeBlock>;
+    if (codeChild && React.isValidElement(codeChild) && (codeChild.props as any).children) {
+      return <CodeBlock className={(codeChild.props as any).className}>{String((codeChild.props as any).children).replace(/\n$/, '')}</CodeBlock>;
     }
     return <div {...props}>{children}</div>;
   },
@@ -300,6 +300,8 @@ const Lesson: React.FC = () => {
     return { intro, sections };
   };
 
+  const parsedContent = aiContent ? parseSections(aiContent) : null;
+
   const handleDownloadPDF = () => {
     if (!aiContent || !lesson) return;
 
@@ -461,8 +463,6 @@ const Lesson: React.FC = () => {
       document.body.removeChild(tempContainer);
     });
   };
-
-  const parsedContent = aiContent ? parseSections(aiContent) : null;
 
   if (!level || !lesson) {
     return <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">Lesson not found</div>;
