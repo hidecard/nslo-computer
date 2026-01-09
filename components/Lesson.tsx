@@ -129,9 +129,9 @@ const markdownComponents: Record<string, React.FC<any>> = {
     // It's a code block - pass to our custom component
     return <CodeBlock className={className}>{String(children).replace(/\n$/, '')}</CodeBlock>;
   },
-  pre: ({ children, ...props }) => {
+  pre: ({ children, ...props }: any) => {
     // Extract the code from nested elements
-    const codeChild = children as React.ReactElement;
+    const codeChild = React.isValidElement(children) ? children : null;
     if (codeChild?.props?.children) {
       return <CodeBlock className={codeChild.props.className}>{String(codeChild.props.children).replace(/\n$/, '')}</CodeBlock>;
     }

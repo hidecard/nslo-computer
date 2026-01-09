@@ -11,3 +11,53 @@ pre.bg-black {
 pre.bg-black code {
   color: #333 !important;
 }
+
+/* Improved code syntax highlighting for white background */
+pre.bg-black code {
+  color: #24292e !important; /* Dark text for better readability */
+}
+
+/* Specific language highlighting colors */
+pre.bg-black code.language-javascript,
+pre.bg-black code.language-js {
+  color: #032f62 !important;
+}
+
+pre.bg-black code.language-python,
+pre.bg-black code.language-py {
+  color: #005cc5 !important;
+}
+
+pre.bg-black code.language-html {
+  color: #22863a !important;
+}
+
+pre.bg-black code.language-css {
+  color: #6f42c1 !important;
+}
+
+/* String literals */
+pre.bg-black code .token.string,
+pre.bg-black code .token.char {
+  color: #032f62 !important;
+}
+
+/* Keywords */
+pre.bg-black code .token.keyword {
+  color: #d73a49 !important;
+}
+
+/* Comments */
+pre.bg-black code .token.comment {
+  color: #6a737d !important;
+}
+
+/* Numbers */
+pre.bg-black code .token.number {
+  color: #005cc5 !important;
+}
+
+/* Functions */
+pre.bg-black code .token.function {
+  color: #6f42c1 !important;
+}
