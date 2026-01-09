@@ -120,7 +120,7 @@ const markdownComponents: Record<string, React.FC<any>> = {
     
     if (isInline) {
       return (
-        <code className="px-2 py-0.5 bg-white/10 rounded text-blue-300 text-sm font-mono" {...props}>
+        <code className="px-2 py-0.5 bg-yellow-300 rounded text-black text-sm font-mono" {...props}>
           {children}
         </code>
       );
