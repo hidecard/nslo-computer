@@ -7,7 +7,7 @@ const Roadmap: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  const categories = ['All', 'Beginner', 'Intermediate', 'Advanced', 'Ai', 'Computer Error', 'Specialized', 'Social Media', 'It Support'];
+  const categories = ['All', 'Beginner', 'Intermediate', 'Advanced', 'Ai', 'Computer Error', 'Specialized', 'Social Media', 'It Support', 'Web Development', 'Programming Languages'];
 
   const filteredCurriculum = selectedCategory === 'All'
     ? CURRICULUM
